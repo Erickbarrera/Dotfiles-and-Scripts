@@ -1,5 +1,5 @@
 /*
-++ Template
+    C++ Template
     By Erick Barrera
  */
 
