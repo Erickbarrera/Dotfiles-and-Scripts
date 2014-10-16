@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
     }
 
     if(oflag == 1 ){
-      printFilename(); /
+      printFilename(); 
     }
 }
 
