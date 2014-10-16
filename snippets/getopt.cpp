@@ -1,5 +1,5 @@
 /*
-    C++ Template
+    getopt C++ Template
     By Erick Barrera
  */
 
