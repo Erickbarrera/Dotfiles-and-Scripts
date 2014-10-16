@@ -1,6 +1,17 @@
 /*
     getopt C++ Template
     By Erick Barrera
+    
+    Example input and output:
+    erick@~/ClionProjects/Test$ ./a.out 
+    
+    erick@~/ClionProjects/Test$ ./a.out -c
+    Option c On
+    
+    erick@~/ClionProjects/Test$ ./a.out -c -o example.txt
+    Option c On
+    Option o on
+    example.txt
  */
 
 
