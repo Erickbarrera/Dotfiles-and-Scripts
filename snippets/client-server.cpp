@@ -23,11 +23,9 @@ int main(int argc, char *argv[]) {
         switch (opt) {
             case 'c':
                 cflag = 1;
-                printf("Option c On\n");
                 break;
             case 's':
                 sflag = 1;
-                printf("Option o on\n");
                 break;
             default:
                 printf("Option not recognized\n");
