@@ -2,6 +2,10 @@
     Client-Server Example
     By Erick Barrera
     For TCN 4211
+    
+    USAGE:
+        To run server use: ./client-server -s
+        To run client use: ./client-server -c
  */
 
 #include <iostream>
