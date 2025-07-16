@@ -1,40 +1,47 @@
-# Optional mapping from your CSV fields to GitHub labels
-def generate_labels(row):
-    labels = []
-    if row.get('Epic'):
-        labels.append(row['Epic'])
-    if row.get('Status'):
-        labels.append(row['Status'])
-    return labels
+import csv
+import requests
 
+# CONFIG - Edit these before running
+GITHUB_TOKEN = ''
+REPO_OWNER = ''
+REPO_NAME = ''
+CSV_FILE = ''
+
+# === HEADERS ===
+headers = {
+    "Authorization": f"Bearer {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+# === ISSUE CREATION FUNCTION ===
 def create_issue(title, body, labels):
-    url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues'
-    headers = {
-        'Authorization': f'token {GITHUB_TOKEN}',
-        'Accept': 'application/vnd.github+json'
+    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues"
+    payload = {
+        "title": title,
+        "body": body,
+        "labels": labels
     }
-    data = {
-        'title': title,
-        'body': body,
-        'labels': labels
-    }
-    response = requests.post(url, json=data, headers=headers)
+    response = requests.post(url, json=payload, headers=headers)
     if response.status_code == 201:
-        print(f'Issue created: {title}')
+        print(f"✅ Created issue: {title}")
     else:
-        print(f'URL: {url}')
-        print(f'Failed to create issue: {title}')
-        print(f'Status Code: {response.status_code}')
-        print(f'Response: {response.json()}')
+        print(f"❌ Failed to create issue: {title}")
+        print("Status Code:", response.status_code)
+        print("Response:", response.json())
 
-def main():
-    with open(CSV_FILE, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            title = row.get('Title', 'No Title')
-            body = row.get('Body', '')
-            labels = generate_labels(row)
-            create_issue(title, body, labels)
+# === READ CSV AND UPLOAD ===
+with open(CSV_PATH, newline='', encoding='utf-8') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        title = row["Title"]
+        body = row["Body"]
+        labels = []
 
-if __name__ == '__main__':
-    main()
+        if row.get("Phase"):
+            labels.append(row["Phase"])
+        if row.get("Size"):
+            labels.append(row["Size"])
+        if row.get("Epic") and not title.startswith("[EPIC]"):
+            labels.append(row["Epic"])
+
+        create_issue(title, body, labels)
